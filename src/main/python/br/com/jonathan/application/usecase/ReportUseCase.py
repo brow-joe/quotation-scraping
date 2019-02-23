@@ -18,17 +18,8 @@ class ReportUseCase():
     def execute(self):
         try:
             documents = self.repository.findAll()
-            for data in documents:
-                document = self.translator.translate(data)
-                print(document.name)
-                print(document.code)
-                print(document.price)
-                print(document.capitalization)
-                print(document.vol_24)
-                print(document.total_vol)
-                print(document.variance_24)
-                print(document.variance_7)
-                print('\n')
+            if (documents is not None):
+                return [self.translator.translate(document) for document in documents]
         except Exception as err:
             self.logger.error(err)
             raise err

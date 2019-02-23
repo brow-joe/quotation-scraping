@@ -1,5 +1,6 @@
 #!/bin/python
 import sys
+import json
 
 from infrastructure.configuration.Configuration import AppConfiguration
 
@@ -12,14 +13,17 @@ logger = configuration.getLogger(__name__)
 def mining():
     try:
         response = StartMiningUseCase().execute()
-        logger.info('SizeOf: %d' % (len(response,)))
+        logger.info('Mining - SizeOf: %d' % (len(response,)))
     except Exception as err:
         logger.fatal(err)
         pass
 
 def report():
     try:
-        ReportUseCase().execute()
+        response = ReportUseCase().execute()
+        logger.info('Report - SizeOf: %d' % (len(response,)))
+        for data in response:
+            logger.info('Name: %s - Price: %s - Capitalization: %s' % (data.name, data.price, data.capitalization,))
     except Exception as err:
         logger.fatal(err)
         pass
